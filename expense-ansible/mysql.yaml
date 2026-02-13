@@ -1,6 +1,7 @@
 ---
 - name: configure mysql-server
   hosts: localhost
+  connection: local
   become: yes
   tasks: 
   - name: install MySql-server
