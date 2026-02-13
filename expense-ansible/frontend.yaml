@@ -22,7 +22,7 @@
 
   - name: download frontend code
     ansible.builtin.get_url:
-      src: https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+      url: https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
       dest: /tmp/frontend.zip
 
   - name: unarchive frontend files
