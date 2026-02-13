@@ -1,6 +1,6 @@
 ---
 - name: configure mysql-server
-  hosts: all
+  hosts: backend
   connection: local
   become: yes
   tasks: 

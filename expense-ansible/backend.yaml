@@ -1,6 +1,6 @@
 ---
 - name: setup backend
-  hosts: all
+  hosts: frontend
   connection: local
 
   become: yes
