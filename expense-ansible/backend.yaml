@@ -11,7 +11,7 @@
   - name: install nodejs
     ansible.builtin.dnf:
       name: nodejs
-      status: present
+      state: present
 
   - name: Update OpenSSH package
     ansible.builtin.dnf:
