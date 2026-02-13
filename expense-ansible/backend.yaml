@@ -1,6 +1,6 @@
 ---
 - name: setup backend
-  hosts: all
+  hosts: localhost
   become: yes
   tasks:
   - name: enable nodejs 20
