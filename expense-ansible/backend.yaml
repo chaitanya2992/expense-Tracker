@@ -70,7 +70,7 @@
   - name: install mysql clients
     ansible.builtin.dnf:
       name: mysql
-      status: present
+      state: present
 
   - name: loading schema
     ansible.builtin.shell:
