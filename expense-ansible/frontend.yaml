@@ -1,7 +1,7 @@
 ---
 
 - name: confihure frontend server
-  hosts: frontend
+  hosts: all
   become: true
   tasks: 
   - name: install nginx
