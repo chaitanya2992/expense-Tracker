@@ -54,9 +54,9 @@
 
   - name: unarchive code
     ansible.builtin.unarchive:
-    src: /tmp/backend.zip
-    dest: /app
-    remote_src: yes
+      src: /tmp/backend.zip
+      dest: /app
+      remote_src: yes
 
   - name: install dependencies
     community.general.npm:
@@ -64,8 +64,8 @@
 
   - name: copy backend service
     ansible.builtin.copy:
-    src: backend.service
-    dest: /etc/systemd/system/backend.service
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
 
   - name: install mysql clients
     ansible.builtin.dnf:
