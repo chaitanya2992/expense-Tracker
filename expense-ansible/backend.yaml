@@ -1,0 +1,85 @@
+---
+- name: setup backend
+  hosts: backend
+  become: yes
+  tasks:
+  - name: enable nodejs 20
+    ansible.builtin.command: dnf module enable nodejs:20 -y
+
+  - name: install nodejs
+    ansible.builtin.dnf:
+      name: nodejs
+      status: present
+
+  - name: Update OpenSSH package
+    ansible.builtin.dnf:
+      name:
+        - openssh
+        - openssh-server
+        - openssh-clients
+      state: latest
+
+  - name: Ensure sshd is running
+    ansible.builtin.service:
+      name: sshd
+      state: started
+      enabled: yes
+
+  - name: useradd
+    ansible.builtin.user:
+      name: expense
+      system: true
+
+  - name: delete app directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+  
+  - name: create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  - name: delete catalogue zip file
+    ansible.builtin.file:
+      path: /tmp/catalogue.zip
+      state: absent
+
+  - name: download backend
+    ansible.builtin.get_url:
+      url: https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+      dest: /tmp/backend.zip
+
+  - name: unarchive code
+    ansible.builtin.unarchive:
+    src: /tmp/backend.zip
+    dest: /app
+    remote_src: yes
+
+  - name: install dependencies
+    community.general.npm:
+      path: /app
+
+  - name: copy backend service
+    ansible.builtin.copy:
+    src: backend.service
+    dest: /etc/systemd/system/backend.service
+
+  - name: install mysql clients
+    ansible.builtin.dnf:
+      name: mysql
+      status: present
+
+  - name: loading schema
+    ansible.builtin.shell:
+      mysql -h "{{ MYSQL_HOST }}" -uroot -pExpenseApp@1 < /app/schema/backend.sql
+
+  - name: restarting backend
+    ansible.builtin.service:
+      name: backend
+      enabled: yes
+      state: restarted
+      
+
+
+
